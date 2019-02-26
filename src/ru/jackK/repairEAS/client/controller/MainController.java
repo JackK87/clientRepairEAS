@@ -3,13 +3,17 @@ package ru.jackK.repairEAS.client.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import ru.jackK.repairEAS.client.io.Client;
 import ru.jackK.repairEAS.client.util.Config;
-import ru.jackK.repairEAS.client.util.FileWorker.FileWorker;
+import ru.jackK.repairEAS.client.util.fileWorker.FileWorker;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,22 +21,14 @@ import javafx.scene.control.Button;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.security.CodeSource;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
-import ru.jackK.repairEAS.client.util.ThreadWorker.ServiceAction;
-import ru.jackK.repairEAS.client.util.ThreadWorker.StateService;
+import ru.jackK.repairEAS.client.util.threadWorker.*;
 
 public class MainController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Label lblStateGmmq;
@@ -51,6 +47,9 @@ public class MainController {
 
     @FXML
     private TextArea txtLogCommand;
+
+    @FXML
+    private StackPane container;
 
     @FXML
     private GridPane panelMain;
@@ -119,9 +118,6 @@ public class MainController {
     private Label lblNamePC;
 
     @FXML
-    private Font x3;
-
-    @FXML
     private Label lblVersion;
 
     Consumer<String> writeLog = message -> {
@@ -141,7 +137,7 @@ public class MainController {
                     case "EPWD": //GMMQ
                         lblStateGmmq.setText(status);
                         break;
-                    case "GM_ShedulerSvc":
+                    case "GM_SchedulerSvc":
                     case "Fax": //GM_ShedulerSvc
                         lblStateSheduler.setText(status);
                         break;
@@ -157,6 +153,7 @@ public class MainController {
     private Client client;
     private Config config;
     private String pathConfig, configName;
+    private Parent repairTransaction;
 
     private static final Logger log = Logger.getLogger(MainController.class);
 
@@ -184,6 +181,55 @@ public class MainController {
             handleSqlClicked(config.getSqlServiceName(), event);
         }
     };
+    private EventHandler<ActionEvent> onClickedClearFolders = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            handleClickedClearFolders();
+        }
+    };
+    private EventHandler<ActionEvent> onClickedRestartServices = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            handleClickedRestartServices();
+        }
+    };
+    private EventHandler<ActionEvent> onClickedDbActions = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            if (event.getSource() instanceof Button) {
+                Button btn = (Button)event.getSource();
+
+                switch (btn.getId()) {
+                    case "btnReplicaExport":
+                        handleClickedReplicaExport();
+                        break;
+                    case "btnRepairTransaction":
+                        handleClickedRepairTransaction();
+                        break;
+                }
+            }
+        }
+    };
+
+    private void handleClickedRepairTransaction() {
+        this.panelMain.setVisible(false);
+        this.repairTransaction.setVisible(true);
+    }
+
+    private void handleClickedReplicaExport() {
+        new Thread(new DataBaseAction(DbAction.ExecuteProcedure, config.getNameSqlServer(), config.getPortSqlServer(),
+                                        config.getUserNameSql(), config.getPasswordSql(), config.getDbName(), writeLog)).start();
+    }
+
+    private void handleClickedRestartServices() {
+        new Thread(new ServiceAction(config.getGmmqServiceName(), StateService.RESTART, writeLog, setServiceStatus)).start();
+        new Thread(new ServiceAction(config.getShedulerServiceName(), StateService.RESTART, writeLog, setServiceStatus)).start();
+    }
+
+    private void handleClickedClearFolders() {
+        new Thread(new FileAction(config.getPathExportGMMQ(), writeLog)).start();
+        new Thread(new FileAction(config.getPathImportGMMQ(), writeLog)).start();
+    }
 
     private void handleSqlClicked(String serviceName, ActionEvent event) {
         if (event.getSource() instanceof Button) {
@@ -220,8 +266,10 @@ public class MainController {
                     new Thread(new ServiceAction(serviceName, StateService.RESTART, writeLog, setServiceStatus)).start();
                     break;
                 case "btnDeleteSheduler":
+                    new Thread(new ServiceAction(serviceName, StateService.DELETE, writeLog, setServiceStatus)).start();
                     break;
                 case "btnInstallSheduler":
+                    new Thread(new ServiceAction(serviceName, config.getPathShedulerService(), StateService.INSTALL, writeLog, setServiceStatus)).start();
                     break;
             }
         }
@@ -242,8 +290,10 @@ public class MainController {
                     new Thread(new ServiceAction(serviceName, StateService.RESTART, writeLog, setServiceStatus)).start();
                     break;
                 case "btnDeleteGmmq":
+                    new Thread(new ServiceAction(serviceName, config.getPathGmmqService() ,StateService.DELETE, writeLog, setServiceStatus)).start();
                     break;
                 case "btnInstallGmmq":
+                    new Thread(new ServiceAction(serviceName, StateService.INSTALL, writeLog, setServiceStatus)).start();
                     break;
             }
         }
@@ -293,6 +343,8 @@ public class MainController {
         lblDateExport.setText(FileWorker.getLastModifedSimpleFormat(config.getPathExportGMMQ(), config.getDateFormate()));
         lblDateImport.setText(FileWorker.getLastModifedSimpleFormat(config.getPathImportGMMQ(), config.getDateFormate()));
 
+        lblNamePC.setText(getNamePC());
+
         btnExit.setOnAction(onClickedExit);
 
         btnRunGmmq.setOnAction(onClickedGmmq);
@@ -304,71 +356,53 @@ public class MainController {
         btnRunSql.setOnAction(onClickedSql);
         btnStopSql.setOnAction(onClickedSql);
 
-        //region старое
-        /*
-        btnRepairTransaction.setOnAction(event -> {
-            //client.Connect();
-            ArrayList<String> errorList = new ArrayList<>();
-            boolean resultDelete = FileWorker.allFileDelete(config.getPathImportGMMQ(), errorList);
+        btnInstallGmmq.setOnAction(onClickedGmmq);
+        btnDeleteGmmq.setOnAction(onClickedGmmq);
+        btnInstallSheduler.setOnAction(onClickedSheduler);
+        btnDeleteSheduler.setOnAction(onClickedSheduler);
 
-            if (resultDelete && errorList.size() == 0) {
-                System.out.println("Удаление файлов прошло успешно.");
-            } else if (resultDelete && errorList.size() > 0) {
-                System.out.println("Не все файлы бали удалены:");
-                for (String fileName : errorList)
-                    System.out.println(fileName);
-            } else {
-                System.out.println("Файлы не удалось удалить. Возможно в метод передали пустую ссылку или указатель на файл.");
+        btnClearFolders.setOnAction(onClickedClearFolders);
+
+        btnRestartService.setOnAction(onClickedRestartServices);
+
+        btnReplicaExport.setOnAction(onClickedDbActions);
+
+        btnRepairTransaction.setOnAction(onClickedDbActions);
+    }
+
+    public void initializeFXMLForms(FXMLLoader... loaders) throws IOException {
+
+        for (int index = 0; index < loaders.length; index++) {
+            FXMLLoader loader = loaders[index];
+
+            Parent form = loader.load();
+
+            switch (form.getId()) {
+                case "paneRepairTransaction":
+                    initializeRepairTransaction(form, loader.getController());
+                    break;
             }
+        }
 
-        });
+    }
 
-        btnRestartService.setOnAction(event -> {
-            client.Disconnect();
-            CommandService cmd = new CommandService("EPWD");
-            try {
-                ServiceAction sc = cmd.scState();
-                System.out.println("Остановка службы " + cmd.scStop());
-                System.out.println("Запуск службы " + cmd.scStart());
-                System.out.println("Пауза службы " + cmd.scPause());
-                System.out.println("Запуск службы " + cmd.scContinue());
-                System.out.println("Перезапуск службы " + cmd.scRestart());
+    private void initializeRepairTransaction(Parent form, RepairTransactionController controller) {
+        this.repairTransaction = form;
+        this.repairTransaction.setVisible(false);
 
-                String query = "SELECT [PROFILEID],[NAME],[SCANNER],[SCANNERDEVICENAME],[SCALE],[SCALEDEVICENAME],[FISCALPRINTER],[FISCALPRINTERDEVICENAME] FROM [RETAILHARDWAREPROFILE] WHERE [NAME] = ?";
-                Map<String, String> env = System.getenv();
-                DbMsSql msSql = DbMsSql.getInstance("R04-649001-N", "sa", "Sup93aP6M*");
+        this.container.getChildren().add(form);
 
-                msSql.connect("DB649001");
+        controller.setPaneMain(panelMain);
+        controller.setWriteLog(writeLog);
+    }
 
-                //boolean result = msSql.executeStoredProcedure(null, null);
-                //String script = ""
+    private String getNamePC() {
+        Map<String, String> env = System.getenv();
 
-                //boolean result = msSql.executeScript(script);
-                // boolean result = msSql.executeScript(script);
+        if (env != null && env.containsKey("COMPUTERNAME"))
+            return env.get("COMPUTERNAME");
 
-
-               if (result)
-                   System.out.println("Выгрузка 0 ой реплики успешно завершена.");
-               else*/
-                   /*System.out.println("Не удалось выгрузить 0 ую реплику.");
-                ArrayList<SqlParametr> params = new ArrayList<SqlParametr>();
-                params.add(new SqlParametr("varchar", "Окно 1"));
-                ArrayList<ArrayList<RowTable>> resultQuery = msSql.executeQuery(query, params);
-
-                for (ArrayList<RowTable> rows : resultQuery) {
-                    for (RowTable item : rows) {
-                        System.out.printf("%s\t%s\n", item.column, item.value);
-                    }
-                    System.out.println("============================");
-                }
-
-                msSql.disconnect();
-
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        });*/
-                   //endregion
+        return "";
     }
 
     private Config CreateDefaultConfig() {
@@ -377,19 +411,32 @@ public class MainController {
         config.setPathExportGMMQ("c:\\GMMQ\\Export");
         config.setPathImportGMMQ("c:\\GMMQ\\Import");
 
-        /*config.setGmmqServiceName("GMMQ");
-        config.setShedulerServiceName("GM_SchedulerSvc");
-        config.setSqlServiceName("MSSQLSERVER");*/
-
         config.setGmmqServiceName("GMMQ");
+        config.setShedulerServiceName("GM_SchedulerSvc");
+        config.setSqlServiceName("MSSQLSERVER");
+
+        /*config.setGmmqServiceName("EPWD");
         config.setShedulerServiceName("Fax");
-        config.setSqlServiceName("FontCache");
+        config.setSqlServiceName("FontCache");*/
 
         config.setUserNameSql("sa");
         config.setPasswordSql("Sup93aP6M*");
         config.setOfflineMode(false);
 
         config.setDateFormate("dd MMM YYYY HH:mm:ss");
+
+        config.setPathGmmqService("\"C:\\Program Files (x86)\\Microsoft Dynamics AX\\60\\PosServices\\GMMQ\\GMMQ.Client.Service.exe\"");
+        config.setPathShedulerService("\"C:\\Program Files (x86)\\Microsoft Dynamics AX\\60\\Retail POS\\GM_Scheduler.exe\"  -displayname \"GM_SchedulerSvc\" -servicename \"GM_SchedulerSvc\"");
+
+        String pcName = "R04-649184-N";
+        String[] splitName = pcName.split("-");
+
+        if (splitName.length == 3) {
+            String dbName = String.format("DB%s", splitName[1]);
+            config.setNameSqlServer(pcName);
+            config.setPortSqlServer(1433);
+            config.setDbName(dbName);
+        }
 
         return config;
     }

@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -85,126 +86,130 @@
                   </HBox>
                </children>
             </AnchorPane>
-            <GridPane fx:id="panelMain" layoutX="196.0" layoutY="161.0" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <StackPane fx:id="container" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                  <GridPane fx:id="panelMain">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Button fx:id="btnGetStateService" layoutX="53.0" layoutY="63.0" mnemonicParsing="false" styleClass="btn-light" text="ПОЛУЧИТЬ&#10;СОСТОЯНИЕ СЛУЖБ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                           <children>
+                              <Button fx:id="btnGetStateService" layoutX="53.0" layoutY="63.0" mnemonicParsing="false" styleClass="btn-light" text="ПОЛУЧИТЬ&#10;СОСТОЯНИЕ СЛУЖБ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <Button fx:id="btnInstallGmmq" layoutX="14.0" layoutY="56.0" mnemonicParsing="false" styleClass="btn-light" text="УСТАНОВИТЬ GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <children>
+                              <Button fx:id="btnInstallSheduler" layoutX="41.0" layoutY="26.0" mnemonicParsing="false" styleClass="btn-light" text="УСТАНОВИТЬ&#10;GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                           <children>
+                              <Button fx:id="btnRunGmmq" layoutX="7.0" layoutY="45.0" mnemonicParsing="false" styleClass="btn-orange" text="ЗАПУСК GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                           <children>
+                              <Button fx:id="btnSettingsEas" layoutX="90.0" layoutY="56.0" mnemonicParsing="false" styleClass="btn-light" text="МОНИТОР НАСТРОЕК ЕАС" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Button fx:id="btnRepairTransaction" layoutX="90.0" layoutY="56.0" mnemonicParsing="false" styleClass="btn-light" text="ИСПРАВИТЬ&#10;ЗАВИСШУЮ ТРАНЗАКЦИЮ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane GridPane.columnIndex="2" GridPane.rowIndex="3">
+                           <children>
+                              <Button fx:id="btnReplicaExport" layoutX="76.0" layoutY="34.0" mnemonicParsing="false" styleClass="btn-light" text="ВЫГРУЗКА РЕПЛИКИ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                           <children>
+                              <Button fx:id="btnExit" layoutX="35.0" layoutY="45.0" mnemonicParsing="false" styleClass="btn-yellow" text="ВЫХОД" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="btnRepairTransport" layoutX="66.0" layoutY="57.0" mnemonicParsing="false" styleClass="btn-dark" text="РЕМОНТ ТРАНСПОРТА" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <Button fx:id="btnRestartService" layoutX="66.0" layoutY="46.0" mnemonicParsing="false" styleClass="btn-dark" text="ПЕРЕЗАПУСК СЛУЖБ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Button fx:id="btnClearFolders" layoutX="90.0" layoutY="63.0" mnemonicParsing="false" styleClass="btn-dark" text="ОЧИСТКА EXPORT/IMPORT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
+                           <children>
+                              <Button fx:id="btnRunSql" layoutX="41.0" layoutY="57.0" mnemonicParsing="false" styleClass="btn-orange" text="ЗАПУСК MS SQL SERVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
+                           <children>
+                              <Button fx:id="btnStopSql" layoutX="108.0" layoutY="35.0" mnemonicParsing="false" styleClass="btn-orange" text="ОСТАНОВКА &#10;MS SQL SERVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                           <children>
+                              <Button fx:id="btnGetInfoSystem" layoutY="1.0" mnemonicParsing="false" styleClass="btn-light" text="ИНФОРМАЦИЯ О СИСТЕМЕ" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <Button fx:id="btnDeleteGmmq" layoutX="41.0" layoutY="35.0" mnemonicParsing="false" styleClass="btn-light" text="УДАЛИТЬ GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <Button fx:id="btnDeleteSheduler" layoutX="77.0" layoutY="46.0" mnemonicParsing="false" styleClass="btn-light" text="УДАЛИТЬ GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <children>
+                              <Button fx:id="btnStopSheduer" layoutX="52.0" layoutY="67.0" mnemonicParsing="false" styleClass="btn-orange" text="ОСТАНОВКА GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <children>
+                              <Button fx:id="btnRunSheduler" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" styleClass="btn-orange" text="ЗАПУСК GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <children>
+                              <Button fx:id="btnStopGmmq" layoutX="52.0" layoutY="45.0" mnemonicParsing="false" styleClass="btn-orange" text="ОСТАНОВКА GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane GridPane.columnIndex="3" GridPane.rowIndex="3">
+                           <children>
+                              <Button fx:id="btnSettings" layoutX="21.0" layoutY="34.0" mnemonicParsing="false" styleClass="btn-yellow" text="НАСТРОИКА" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
                      </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="btnInstallGmmq" layoutX="14.0" layoutY="56.0" mnemonicParsing="false" styleClass="btn-light" text="УСТАНОВИТЬ GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="btnInstallSheduler" layoutX="41.0" layoutY="26.0" mnemonicParsing="false" styleClass="btn-light" text="УСТАНОВИТЬ&#10;GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="btnRunGmmq" layoutX="7.0" layoutY="45.0" mnemonicParsing="false" styleClass="btn-orange" text="ЗАПУСК GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
-                     <children>
-                        <Button fx:id="btnSettingsEas" layoutX="90.0" layoutY="56.0" mnemonicParsing="false" styleClass="btn-light" text="МОНИТОР НАСТРОЕК ЕАС" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <children>
-                        <Button fx:id="btnRepairTransaction" layoutX="90.0" layoutY="56.0" mnemonicParsing="false" styleClass="btn-light" text="ИСПРАВИТЬ&#10;ЗАВИСШУЮ ТРАНЗАКЦИЮ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane GridPane.columnIndex="2" GridPane.rowIndex="3">
-                     <children>
-                        <Button fx:id="btnReplicaExport" layoutX="76.0" layoutY="34.0" mnemonicParsing="false" styleClass="btn-light" text="ВЫГРУЗКА РЕПЛИКИ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
-                     <children>
-                        <Button fx:id="btnExit" layoutX="35.0" layoutY="45.0" mnemonicParsing="false" styleClass="btn-yellow" text="ВЫХОД" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="btnRepairTransport" layoutX="66.0" layoutY="57.0" mnemonicParsing="false" styleClass="btn-dark" text="РЕМОНТ ТРАНСПОРТА" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-                     <children>
-                        <Button fx:id="btnRestartService" layoutX="66.0" layoutY="46.0" mnemonicParsing="false" styleClass="btn-dark" text="ПЕРЕЗАПУСК СЛУЖБ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-                     <children>
-                        <Button fx:id="btnClearFolders" layoutX="90.0" layoutY="63.0" mnemonicParsing="false" styleClass="btn-dark" text="ОЧИСТКА EXPORT/IMPORT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
-                     <children>
-                        <Button fx:id="btnRunSql" layoutX="41.0" layoutY="57.0" mnemonicParsing="false" styleClass="btn-orange" text="ЗАПУСК MS SQL SERVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
-                     <children>
-                        <Button fx:id="btnStopSql" layoutX="108.0" layoutY="35.0" mnemonicParsing="false" styleClass="btn-orange" text="ОСТАНОВКА &#10;MS SQL SERVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                     <children>
-                        <Button fx:id="btnGetInfoSystem" layoutY="1.0" mnemonicParsing="false" styleClass="btn-light" text="ИНФОРМАЦИЯ О СИСТЕМЕ" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <Button fx:id="btnDeleteGmmq" layoutX="41.0" layoutY="35.0" mnemonicParsing="false" styleClass="btn-light" text="УДАЛИТЬ GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <children>
-                        <Button fx:id="btnDeleteSheduler" layoutX="77.0" layoutY="46.0" mnemonicParsing="false" styleClass="btn-light" text="УДАЛИТЬ GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                     <children>
-                        <Button fx:id="btnStopSheduer" layoutX="52.0" layoutY="67.0" mnemonicParsing="false" styleClass="btn-orange" text="ОСТАНОВКА GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                     <children>
-                        <Button fx:id="btnRunSheduler" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" styleClass="btn-orange" text="ЗАПУСК GM_SHEDULER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="btnStopGmmq" layoutX="52.0" layoutY="45.0" mnemonicParsing="false" styleClass="btn-orange" text="ОСТАНОВКА GMMQ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane GridPane.columnIndex="3" GridPane.rowIndex="3">
-                     <children>
-                        <Button fx:id="btnSettings" layoutX="21.0" layoutY="34.0" mnemonicParsing="false" styleClass="btn-yellow" text="НАСТРОИКА" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
+                     <padding>
+                        <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+                     </padding>
+                  </GridPane>
                </children>
-               <padding>
-                  <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
-               </padding>
-            </GridPane>
+            </StackPane>
          </children>
       </AnchorPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">

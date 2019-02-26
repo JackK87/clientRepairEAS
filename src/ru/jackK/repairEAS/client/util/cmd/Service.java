@@ -1,6 +1,6 @@
-package ru.jackK.repairEAS.client.util.CMD;
+package ru.jackK.repairEAS.client.util.cmd;
 
-import ru.jackK.repairEAS.client.util.ThreadWorker.StateService;
+import ru.jackK.repairEAS.client.util.threadWorker.StateService;
 
 import java.util.HashMap;
 

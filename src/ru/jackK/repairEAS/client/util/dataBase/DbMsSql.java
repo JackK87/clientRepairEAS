@@ -1,4 +1,4 @@
-package ru.jackK.repairEAS.client.util.DataBase;
+package ru.jackK.repairEAS.client.util.dataBase;
 
 import ru.jackK.repairEAS.client.model.ColumnTable;
 import ru.jackK.repairEAS.client.model.RowTable;
@@ -239,8 +239,10 @@ public class DbMsSql extends DB {
                 switch (param.getType()) {
                     case "int":
                         preparedStatement.setInt(index, Integer.parseInt(param.getValue()));
+                        break;
                     case "varchar":
                         preparedStatement.setString(index, param.getValue());
+                        break;
                 }
 
                 index++;

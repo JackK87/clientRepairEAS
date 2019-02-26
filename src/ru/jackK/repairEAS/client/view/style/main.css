@@ -40,6 +40,12 @@
     /*-fx-highlight-fill: red;
     -fx-highlight-text-fill: yellow;*/
 }
+.txt {
+    -fx-background-color: #727060;
+    -fx-border-color: #FFE226;
+    -fx-text-fill: #FFE226;
+    -fx-font-size: 14;
+}
 
 .btn-dark:pressed {
     -fx-background-color: #787775;

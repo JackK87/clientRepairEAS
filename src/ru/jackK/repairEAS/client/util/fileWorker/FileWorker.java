@@ -1,10 +1,9 @@
-package ru.jackK.repairEAS.client.util.FileWorker;
+package ru.jackK.repairEAS.client.util.fileWorker;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 import ru.jackK.repairEAS.client.util.Config;
 
@@ -39,7 +38,7 @@ public class FileWorker {
         out.close();
     }
 
-    public static boolean allFileDelete(String pathDir, ArrayList<String> errorList) {
+    public static boolean deleteAllFile(String pathDir, ArrayList<String> errorList) {
         File dir = new File(pathDir);
 
         if (dir != null && dir.isDirectory()) {
@@ -65,6 +64,7 @@ public class FileWorker {
 
         return new Date(0);
     }
+
 
     public static String getLastModifedSimpleFormat(String path, String format) {
         Date lastModifed = getLastModifed(path);

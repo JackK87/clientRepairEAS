@@ -1,4 +1,4 @@
-package ru.jackK.repairEAS.client.util.ThreadWorker;
+package ru.jackK.repairEAS.client.util.threadWorker;
 
 public enum StateService {
     RUN {

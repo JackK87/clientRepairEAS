@@ -1,4 +1,4 @@
-package ru.jackK.repairEAS.client.util.DataBase;
+package ru.jackK.repairEAS.client.util.dataBase;
 
 import ru.jackK.repairEAS.client.model.RowTable;
 import ru.jackK.repairEAS.client.model.SqlParametr;

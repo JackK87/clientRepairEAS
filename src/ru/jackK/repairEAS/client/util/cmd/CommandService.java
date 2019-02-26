@@ -1,24 +1,33 @@
-package ru.jackK.repairEAS.client.util.CMD;
+package ru.jackK.repairEAS.client.util.cmd;
 
 import java.io.*;
 
 public class CommandService {
-    private String cmdGetServiceState = "cmd /c sc query";
-    private String cmdServiceStop = "cmd /c sc stop";
-    private String cmdServiceRun = "cmd /c sc start";
-    private String cmdServicePause = "cmd /c sc pause";
-    private String cmdServiceContinue = "cmd /c sc continue";
+    private String cmdGetServiceState = "cmd /c sc query %s";
+    private String cmdServiceStop = "cmd /c sc stop %s";
+    private String cmdServiceRun = "cmd /c sc start %s";
+    private String cmdServicePause = "cmd /c sc pause %s";
+    private String cmdServiceContinue = "cmd /c sc continue %s";
+
+    private String cmdServiceDelete = "cmd /c sc delete %s";
+    private String cmdServiceInstall = "cmd /c sc create %s binPath= %s start= auto DisplayName= %s";
 
     private Service service;
 
     public CommandService(String serviceName) {
         service = new Service(serviceName);
 
-        this.cmdGetServiceState = String.join(" ", this.cmdGetServiceState, serviceName);
-        this.cmdServiceRun = String.join(" ", this.cmdServiceRun, serviceName);
-        this.cmdServiceStop = String.join(" ", this.cmdServiceStop, serviceName);
-        this.cmdServicePause = String.join(" ", this.cmdServicePause, serviceName);
-        this.cmdServiceContinue = String.join(" ", this.cmdServiceContinue, serviceName);
+        this.cmdGetServiceState = String.format(this.cmdGetServiceState, serviceName);
+        this.cmdServiceRun = String.format(this.cmdServiceRun, serviceName);
+        this.cmdServiceStop = String.format(this.cmdServiceStop, serviceName);
+        this.cmdServicePause = String.format(this.cmdServicePause, serviceName);
+        this.cmdServiceContinue = String.format(this.cmdServiceContinue, serviceName);
+        this.cmdServiceDelete = String.format(this.cmdServiceDelete, serviceName);
+
+    }
+    public CommandService(String serviceName, String pathService) {
+        this(serviceName);
+        this.cmdServiceInstall = String.format(this.cmdServiceInstall, serviceName, pathService, serviceName);
     }
 
     public int commandExecute(String command) throws InterruptedException, IOException {
@@ -49,10 +58,19 @@ public class CommandService {
         return result;
     }
 
+    public int scInstall() throws IOException, InterruptedException {
+        return this.commandExecute(this.cmdServiceInstall);
+    }
+
+    public int scDelete() throws IOException, InterruptedException {
+        return this.commandExecute(this.cmdServiceDelete);
+    }
+
     public int scStop() throws InterruptedException, IOException {
         int resultCommand = this.commandExecute(this.cmdServiceStop);
 
         if (resultCommand == 0) {
+            Thread.sleep(250);
             this.commandExecute(this.cmdGetServiceState);
             return this.service.isStopped() ? 0 : -1;
         }
@@ -64,6 +82,7 @@ public class CommandService {
         int resultCommand = this.commandExecute(this.cmdServiceRun);
 
         if (resultCommand == 0) {
+            Thread.sleep(250);
             this.commandExecute(this.cmdGetServiceState);
             return this.service.isRunning() ? 0 : -1;
         }
@@ -75,6 +94,7 @@ public class CommandService {
         int resultCommand = this.commandExecute(this.cmdServicePause);
 
         if (resultCommand == 0) {
+            Thread.sleep(250);
             this.commandExecute(this.cmdGetServiceState);
             return this.service.isPaused() ? 0 : -1;
         }
@@ -86,6 +106,7 @@ public class CommandService {
         int resultCommand = this.commandExecute(this.cmdServiceContinue);
 
         if (resultCommand == 0) {
+            Thread.sleep(250);
             this.commandExecute(this.cmdGetServiceState);
             return this.service.isRunning() ? 0 : -1;
         }

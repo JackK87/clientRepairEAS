@@ -14,8 +14,15 @@ public class Config implements Serializable {
     private String shedulerServiceName;
     private String sqlServiceName;
 
+    private String pathGmmqService;
+    private String pathShedulerService;
+    private String pathSqlService;
+
+    private String nameSqlServer;
+    private int portSqlServer;
     private String userNameSql;
     private String passwordSql;
+    private String dbName;
 
     private boolean offlineMode;
 
@@ -58,6 +65,24 @@ public class Config implements Serializable {
     public String getDateFormate() {
         return this.dateFormate;
     }
+    public String getPathGmmqService() {
+        return this.pathGmmqService;
+    }
+    public String getPathShedulerService() {
+        return this.pathShedulerService;
+    }
+    public String getPathSqlService() {
+        return this.pathSqlService;
+    }
+    public String getNameSqlServer() {
+        return this.nameSqlServer;
+    }
+    public int getPortSqlServer() {
+        return this.portSqlServer;
+    }
+    public String getDbName() {
+        return this.dbName;
+    }
     //endregion
     //region Сеттеры
     public void setUsernameIO(String username) {
@@ -95,6 +120,24 @@ public class Config implements Serializable {
     }
     public void setDateFormate(String dateFormate) {
         this.dateFormate = dateFormate;
+    }
+    public void setPathGmmqService(String pathGmmqService) {
+        this.pathGmmqService = pathGmmqService;
+    }
+    public void setPathShedulerService(String pathShedulerService) {
+        this.pathShedulerService = pathShedulerService;
+    }
+    public void setPathSqlService(String pathSqlService) {
+        this.pathSqlService = pathSqlService;
+    }
+    public void setNameSqlServer(String nameSqlServer) {
+        this.nameSqlServer = nameSqlServer;
+    }
+    public void setPortSqlServer(int portSqlServer) {
+        this.portSqlServer = portSqlServer;
+    }
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
     }
     //endregion
 
