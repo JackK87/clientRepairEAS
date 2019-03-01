@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import ru.jackK.repairEAS.client.io.Client;
+import ru.jackK.repairEAS.client.model.SqlParametr;
 import ru.jackK.repairEAS.client.util.Config;
 import ru.jackK.repairEAS.client.util.fileWorker.FileWorker;
 
@@ -22,6 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -133,16 +137,13 @@ public class MainController {
                 String status = arrayData[1];
 
                 switch (scName) {
-                    case "GMMQ":
-                    case "EPWD": //GMMQ
+                    case "GMMQ": //GMMQ
                         lblStateGmmq.setText(status);
                         break;
-                    case "GM_SchedulerSvc":
-                    case "Fax": //GM_ShedulerSvc
+                    case "GM_SchedulerSvc": //GM_ShedulerSvc
                         lblStateSheduler.setText(status);
                         break;
-                    case "MSSQLSERVER":
-                    case "FontCache": //MSSQLSERVER
+                    case "MSSQLSERVER": //MSSQLSERVER
                             lblStateSql.setText(status);
                             break;
                 }
@@ -217,8 +218,15 @@ public class MainController {
     }
 
     private void handleClickedReplicaExport() {
-        new Thread(new DataBaseAction(DbAction.ExecuteProcedure, config.getNameSqlServer(), config.getPortSqlServer(),
-                                        config.getUserNameSql(), config.getPasswordSql(), config.getDbName(), writeLog)).start();
+        DataBaseAction dataBaseAction = new DataBaseAction(DbAction.ExecuteProcedure, config.getNameSqlServer(), config.getPortSqlServer(),
+                                            config.getUserNameSql(), config.getPasswordSql(), config.getDbName(), writeLog);
+
+        ArrayList<SqlParametr> params = new ArrayList<>();
+        params.add(new SqlParametr("int", "0"));
+
+        dataBaseAction.setParams(params);
+
+        new Thread(dataBaseAction).start();
     }
 
     private void handleClickedRestartServices() {
@@ -318,6 +326,8 @@ public class MainController {
                 config = CreateDefaultConfig();
                 FileWorker.saveConfig(pathConfig, config);
             }
+
+
         } catch (URISyntaxException uriExp) {
             log.error("Ошибка написания пути к исполняемому файлу.", uriExp);
             System.out.println(uriExp);
@@ -394,6 +404,7 @@ public class MainController {
 
         controller.setPaneMain(panelMain);
         controller.setWriteLog(writeLog);
+        controller.setConfig(config);
     }
 
     private String getNamePC() {
